@@ -15,3 +15,6 @@
 * Maven
 * Postgresql 14
 
+## Acceso
+Usuario:`admin`.
+Password:`admin`.
