@@ -145,7 +145,7 @@ export class EdithUserComponent implements OnInit {
           this.userSaved.emit(response.content);
           if (notify)
             this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Usuario guardado correctamente', life: 3000 });
-          if (this.disableSaveButton)
+          if (!this.disableSaveButton)
             this.router.navigate([this.preUrl.getPreviousUrl()]);
         }
         else {

@@ -66,28 +66,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 // http.cors().disable()
                 .exceptionHandling().authenticationEntryPoint(entryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()
-                // .antMatchers("/index.html").permitAll()
-                // .antMatchers("^((?!\\/api\\/v1\\/).)*$").permitAll()
-                // .antMatchers("/login").permitAll()
-                // .antMatchers("/home").permitAll()
-                .antMatchers("/index.html").permitAll().anyRequest().authenticated();
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers("/*")
+                .permitAll()
+                .antMatchers("/employee", "/employee/**", "/role", "/role/**", "/user", "/user/**",
+                        "/vaccination-stock", "/vaccination-stock/**")
+                .authenticated().antMatchers(HttpMethod.POST, "/oauth/token").permitAll();
 
         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        // http.cors().and().csrf().disable()
-        // // http.cors().disable()
-        // .exceptionHandling().authenticationEntryPoint(entryPoint).and().sessionManagement()
-        // .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-        // .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()
-        // // .antMatchers("/index.html").permitAll()
-        // // .antMatchers("^((?!\\/api\\/v1\\/).)*$").permitAll()
-        // // .antMatchers("/login").permitAll()
-        // // .antMatchers("/home").permitAll()
-        // .antMatchers("/**").permitAll();
-
-        // http.addFilterBefore(jwtTokenFilter(),
-        // UsernamePasswordAuthenticationFilter.class);
 
     }
 

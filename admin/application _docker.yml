@@ -1,0 +1,72 @@
+server:
+  servlet:
+    session:
+      cookie:
+        max-age: 600
+  port: 8080
+  tomcat:
+    max-connections: 200
+    max-threads: 200
+    #Certificate
+    # ssl:
+    #   key-store: C:\RUTA\admin.p12
+    #   key-store-password: password
+    #   keyStoreType: PKCS12
+    #   keyAlias: admin-service
+    #TLS 1.2 only
+    #enable/diable https
+    enabled: false
+    #ssl ciphers
+    ciphers: TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_DHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+    # SSL protocol to use.
+    protocol: TLS
+    # Enabled SSL protocols.
+    enabled-protocols: TLSv1.2
+#spring.flyway.check-location=false  spring.sql.init.platform
+spring:
+  application:
+    name: admin-service
+  flyway:
+    enabled: false
+    check-location: false
+
+  sql:
+      init:
+        platform: postgres
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: validate
+  # Oracle settings
+  datasource:
+    url: jdbc:postgresql://vaccination-db:5432/vaccination_stock
+    username: user_stock_db
+    password: admin
+    #driver-class-name: -
+    # HikariCP settings
+    # spring.datasource.hikari.*
+    hikari:
+      maxLifetime: 300000
+      connection-timeout: 60000
+      maximum-pool-size: 5
+#Security
+security:
+  ignored:
+    - "*.bundle.*"
+  jwt:
+    expiration: 3600
+    secrect-key: AS768a6d7as86dsa78FGVH456FGT65GFH67ADGBADADKJDBAKSJD7DTSAD78TDAS78TDS78ASTD78AS6DASD86ASD876D7A8S6D7AS86DAS87DYAS78D
+
+# LOGS CONFIG
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36}::%M:%L - %msg%n"
+  level:
+    org.hibernate.SQL: info
+    org.hibernate.type.descriptor.sql: info
+    root: info
+    org.springframework.web: info
+    org.hibernate: info
+    com.kruger.test.admin: debug
+  file:
+    name: admin-service.log

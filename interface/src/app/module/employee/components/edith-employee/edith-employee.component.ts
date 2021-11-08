@@ -83,6 +83,7 @@ export class EdithEmployeeComponent implements OnInit {
     }
     else
       this.employeeService.save(employee).subscribe(this.subscribeOnSaveUser(true));
+    this.router.navigate([this.prepUrl.getPreviousUrl()]);
   }
   getEmployeeById(id: number): Promise<Employee> {
     return new Promise((resolve, reject) => {
