@@ -1,16 +1,23 @@
+#!/bin/bash
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
 ---CREACION DE USUARIO Y BASE DE DATOS
 CREATE USER user_stock_db WITH ENCRYPTED PASSWORD 'admin';
 
-CREATE DATABASE vaccination_stock;
+---CREATE DATABASE vaccination_stock;
 
 GRANT USAGE ON SCHEMA public TO Postgres;
 
 GRANT all PRIVILEGES ON DATABASE vaccination_stock to user_stock_db;
 ALTER DATABASE vaccination_stock OWNER TO user_stock_db;
-
-USE vaccination_stock;
+---USE vaccination_stock;
 
 --CREACION DE TABLAS
+EOSQL
+
+psql -v ON_ERROR_STOP=1 --username "user_stock_db"  --dbname "$POSTGRES_DB" <<-EOSQL
+
 CREATE TABLE ROLES(
     ID BIGSERIAL PRIMARY KEY,
     ROL VARCHAR(255) NOT NULL,
@@ -89,26 +96,9 @@ ALTER TABLE
 ADD
     CONSTRAINT FK_EMPLOYEES_WITH_VACCINATION_STOCK FOREIGN KEY (ID_EMPLOYEE) REFERENCES EMPLOYEES(ID);
 
-INSERT INTO public.roles(id,rol,"enable")VALUES(1,"ADMIN",true);
-INSERT INTO public.roles(id,rol,"enable")VALUES(2,"EMPLOYEE",true);
--- Auto-generated SQL script #202111072325
-INSERT INTO
-    public .users (
-        id,
-        username,
-        "password",
-        rol,
-        "delete",
-        create_by,
-        create_at
-    )
-VALUES
-    (
-        1,
-        'admin',
-        '$2a$10$VmDtoARCVU9v3AT5rB9GqewvD/76kPbBFrIYb4tZhTTXZldtiRLEu',
-        1,
-        false,
-        1,
-        '2021-11-06 23:25:10.413'
-    );
+
+INSERT INTO public.roles(id,rol,"enable")VALUES(1,'ADMIN',true);
+INSERT INTO public.roles(id,rol,"enable")VALUES(2,'EMPLOYEE',true);
+
+INSERT INTO public .users (username,password,rol,"delete",create_by,create_at)VALUES('admin','\$2a\$10\$VmDtoARCVU9v3AT5rB9GqewvD/76kPbBFrIYb4tZhTTXZldtiRLEu',1,false,1,'2021-11-06 23:25:10.413');
+EOSQL

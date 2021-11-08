@@ -11,13 +11,18 @@
 ### Dependencias
 * JDK 11
 * Angular 13.0.0.
-* Nodejs =>14.16.0
-* Maven
+* Nodejs =>12
+* Maven 3
 * Postgresql 14
+* Docker 20
 
-## Proyecto `interface`
+### Proyecto `interface`
 * Para instalar las dependencias ejecutar `npm install` 
   
-## Acceso
+## DOCKER 
+* Para compilar y ejecutar con Docker ejecutar script `./build_docker.sh`
+
+
+## Accesos
 Usuario:`admin`.
 Password:`admin`.
