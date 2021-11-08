@@ -8,13 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class VaccinationStockConvert extends AbstractConvert<VaccinationStock, VaccinationStockEntity> {
 
-    private final EmployeeConvert employeeConvert;
-
-    public VaccinationStockConvert(EmployeeConvert employeeConvert) {
-        this.employeeConvert = employeeConvert;
-    }
-
-    @Override
+ 	private EmployeeConvert employeeConvert = new EmployeeConvert();
+    
+   @Override
     public VaccinationStock entityToModel(VaccinationStockEntity entity, Boolean eager) {
         VaccinationStock model = new VaccinationStock();
         model.setDate(entity.getDate());

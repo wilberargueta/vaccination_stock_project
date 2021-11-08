@@ -10,16 +10,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EmployeeConvert extends AbstractConvert<Employee, EmployeeEntity> {
-
-    private final UserConvert userConvert;
-
-    @Autowired
+ @Autowired
     private VaccinationStockConvert vaccinationStockConvert;
-
-    public EmployeeConvert(UserConvert userConvert) {
-        this.userConvert = userConvert;
-    }
-
+    
+    @Autowired
+    UserConvert userConvert;
     @Override
     public Employee entityToModel(EmployeeEntity entity, Boolean eager) {
         Employee model = new Employee();
