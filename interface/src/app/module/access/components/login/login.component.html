@@ -1,0 +1,63 @@
+<p-toast></p-toast>
+<app-spinner-load *ngIf="spinner"></app-spinner-load>
+<div class="pages-body login-page p-d-flex p-flex-column" *ngIf="!spinner">
+    <div class="topbar p-p-3 p-d-flex p-jc-between p-flex-row p-ai-center">
+        <div class="topbar-left p-ml-3 p-d-flex" routerLink="/">
+            <div class="logo">
+                <!-- <img src="assets/layout/images/logo2x.png" alt="" /> -->
+            </div>
+        </div>
+        <div class="topbar-right p-mr-3 p-d-flex">
+            <button pButton pRipple type="button" label="Acceso al modulo" [routerLink]="['/']" class="p-button-text p-button-plain topbar-button"></button>
+        </div>
+    </div>
+
+    <div class="p-as-center p-mt-auto p-mb-auto">
+        <div class="pages-panel card p-d-flex p-flex-column">
+            <div class="pages-header p-px-3 p-py-1">
+                <h2>Login</h2>
+            </div>
+
+            <h4>Bienvenido</h4>
+
+            <div class="pages-detail p-mb-6 p-px-6">Por favor ingresar sus credenciales</div>
+
+            <div class="input-panel p-d-flex p-flex-column p-px-3" [formGroup]="loginForm">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">
+                        <i class="pi pi-envelope"></i>
+                    </span>
+                    <span class="p-float-label">
+                        <input type="text" id="username" pInputText formControlName="username">
+                        <label for="username">Usuario</label>
+
+                    </span>
+
+                </div>
+                <div class="p-inputgroup p-mt-2">
+                    <small id="password-help" class="p-error" *ngIf="loginForm.get('username').invalid">Usuario
+                        invalido</small>
+                </div>
+                <div class="p-inputgroup p-mt-3">
+                    <span class="p-inputgroup-addon">
+                        <i class="pi pi-lock"></i>
+                    </span>
+                    <span class="p-float-label">
+                        <input type="password" id="password" pInputText formControlName="password">
+                        <label for="password">Password</label>
+
+                    </span>
+
+                </div>
+                <div class="p-inputgroup p-mt-2 p-mb-6">
+                    <small id="password-help" class="p-error" *ngIf="loginForm.get('password').invalid">Contraseña
+                        invalida</small>
+                </div>
+
+            </div>
+
+            <p-button class="login-button p-mb-6 p-px-3" label="Entrar" (click)="login()" [disabled]="loginForm.invalid"></p-button>
+
+        </div>
+    </div>
+</div>

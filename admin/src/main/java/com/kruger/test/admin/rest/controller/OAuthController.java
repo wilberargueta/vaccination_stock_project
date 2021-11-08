@@ -1,9 +1,7 @@
 package com.kruger.test.admin.rest.controller;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.Optional;
 
 import com.kruger.test.admin.config.security.OAuthJWTProvider;
 import com.kruger.test.admin.rest.model.JwtResponse;
@@ -47,7 +45,8 @@ public class OAuthController {
     HttpStatus httpStatus = HttpStatus.OK;
 
     @PostMapping("/token")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials, BindingResult bindingResult) {
+    public ResponseEntity<Response<?>> login(@RequestBody Map<String, String> credentials,
+            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Response<Object> response = new Response<Object>();
             response.setContent(null);
@@ -71,6 +70,6 @@ public class OAuthController {
         jwtResponse.setUsername(user.getUsername());
         jwtResponse.setRole(user.getRol());
         jwtResponse.setId(user.getId());
-        return new ResponseEntity<>(jwtResponse, httpStatus);
+        return new ResponseEntity<>(new Response<>(jwtResponse), httpStatus);
     }
 }

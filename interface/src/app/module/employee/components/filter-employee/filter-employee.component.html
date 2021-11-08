@@ -1,0 +1,42 @@
+<div class="card">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-6 p-md-3">
+            <label for="state">Filtro</label>
+            <span class="p-float-label">
+                <p-dropdown inputId="id" (onClear)="loadAll.emit(true)" [options]="dropdownOptions"
+                    [(ngModel)]="selectedOptions" optionLabel="name" [autoDisplayFirst]="false" [showClear]="true">
+                </p-dropdown>
+                <label>Seleccione</label>
+            </span>
+        </div>
+        <div class="p-field p-col-3 p-md-3" *ngIf="selectedOptions?.id===1">
+            <label for="state">Estado</label>
+            <p-selectButton [options]="stateOptions" [(ngModel)]="selectedOptionsState" optionLabel="name" optionValue="value"></p-selectButton>
+        </div>
+        <div class="p-field p-col-4 p-md-3" *ngIf="selectedOptions?.id===2">
+            <label for="state">Tipo de vacuna</label>
+            <span class="p-float-label">
+                <p-dropdown inputId="id" [options]="optionsTypeVaccinate" [(ngModel)]="typeVaccination"
+                    optionLabel="name" [autoDisplayFirst]="true"></p-dropdown>
+                <label>Seleccione</label>
+            </span>
+        </div>
+        <div class="p-field p-col-4 p-md-3" *ngIf="selectedOptions?.id===3">
+            <label for="state">Desde</label>
+            <span class="p-float-label">
+                <input type="date" pInputText [(ngModel)]="start" />
+            </span>
+        </div>
+        <div class="p-field p-col-4 p-md-3" *ngIf="selectedOptions?.id===3">
+            <label for="state">Hasta</label>
+            <span class="p-float-label">
+                <input type="date" pInputText [(ngModel)]="end" />
+            </span>
+        </div>
+        <div class="p-field p-col-2 p-md-3 p-mt-4" *ngIf="selectedOptions!==null">
+            <button pButton pRipple label="Filtrar" icon="pi pi-save" class=" p-button-success p-mr-2 p-mb-2" (click)="filter()"></button>
+        </div>
+
+
+    </div>
+</div>

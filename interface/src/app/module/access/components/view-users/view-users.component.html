@@ -1,0 +1,70 @@
+<p-toast></p-toast>
+<app-spinner-load *ngIf="spinner"></app-spinner-load>
+<div class="p-grid" *ngIf="!spinner">
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    <div class="p-col-12">
+        <div class="card">
+            <h3 class="p-text-bold">Administracion de usuarios</h3>
+            <p class="p-text-light">Pantalla de mantenimiento de usuarios</p>
+        </div>
+        <div class="card">
+            <p-toolbar styleClass="p-mb-4">
+                <ng-template pTemplate="left">
+                    <!-- <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2" [routerLink]="['/admin/employee/edith']"></button> -->
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger p-mb-2" (click)="deleteSelectedUser()" [disabled]="!selectedUser || !selectedUser.length"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="users" [columns]="columns" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedUser" [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+                <!-- <ng-template pTemplate="caption">
+                    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                        <h5 class="p-m-0">Administrar Empleados</h5>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                                placeholder="Busqueda..." />
+                        </span>
+                    </div>
+                </ng-template> -->
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="username">Usuario
+                            <p-sortIcon field="username"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="rol">Rol
+                            <p-sortIcon field="rol"></p-sortIcon>
+                        </th>
+                        <th>Opciones</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                        </td>
+                        <td><span class="p-column-title">Usuario</span> {{user.username}}
+                        </td>
+                        <td><span class="p-column-title">Apellidos</span> {{user?.rol?.rol}}
+                        </td>
+
+
+                        <td>
+
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" [routerLink]="['/admin/access/edith/'+user.id]"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteUser(user)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">
+                        Un total de {{users ? users.length : 0 }} usuarios.
+                    </div>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

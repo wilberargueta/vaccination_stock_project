@@ -1,0 +1,42 @@
+<p-toast></p-toast>
+<div class="card">
+    <h5>Creacion de usuario</h5>
+    <div class="p-fluid p-formgrid p-grid" [formGroup]="userForm">
+        <div class="p-field p-col-12 p-md-6">
+            <label for="firstname6">Nombre de usuario</label>
+            <input id="firstname6" type="text" pInputText formControlName="username" (blur)="validateUser()" (focus)="userValid = false">
+            <small id="username2-help" class="p-error" *ngIf="userForm.get('username').invalid">Usuario
+                invalido</small>
+            <small id="username2-help" class="p-error" *ngIf="userForm.get('username').valid && !userValid">El usuario
+                ya se encuentra registrado.</small>
+        </div>
+        <div class="p-field p-col-12 p-md-6" *ngIf="!updateUser">
+            <label for="lastname6">Contraseña</label>
+            <p-password formControlName="password"></p-password>
+            <small id="password-help" class="p-error" *ngIf="userForm.get('password').invalid">Contraseña
+                invalida</small>
+
+        </div>
+        <div class="p-field p-col-12 p-md-3">
+            <label for="state">Role</label>
+            <span class="p-float-label">
+                <p-dropdown inputId="id" [options]="roles" [(ngModel)]="rolSelected" optionLabel="rol"
+                    [autoDisplayFirst]="false" formControlName="rol"></p-dropdown>
+                <label>Seleccione</label>
+            </span>
+            <small id="select-help" class="p-error" *ngIf="userForm.get('rol').invalid">Debe seleccionar un
+                rol</small>
+        </div>
+    </div>
+
+</div>
+<div class="card p-text-right" *ngIf="!disableSaveButton">
+    <button pButton pRipple label="Guardar" icon="pi pi-save" class=" p-button-success p-mr-2 p-mb-2" (click)="save()" [disabled]="userForm.invalid || !userValid"></button>
+    <button pButton pRipple label="Cambiar contraseña" icon="pi pi-save" class=" p-button-info p-mr-2 p-mb-2" (click)="op.toggle($event)" *ngIf="updateUser"></button>
+    <button pButton pRipple label="Regresar" icon="pi pi-arrow-left" class=" p-button-secondary p-mr-2 p-mb-2" [routerLink]="this.preUrl.getPreviousUrl()"></button>
+</div>
+<p-overlayPanel #op [showCloseIcon]="true" [style]="">
+    <ng-template pTemplate>
+        <app-change-password [user]="user" (passwordChanged)="op.hide()"></app-change-password>
+    </ng-template>
+</p-overlayPanel>

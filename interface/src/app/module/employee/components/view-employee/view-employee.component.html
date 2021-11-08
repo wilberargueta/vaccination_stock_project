@@ -1,0 +1,105 @@
+<p-toast></p-toast>
+<app-spinner-load *ngIf="spinner"></app-spinner-load>
+<p-overlayPanel #op [showCloseIcon]="true" [style]="">
+    <ng-template pTemplate>
+        <app-change-password [user]="employee.userAccess" (passwordChanged)="op.hide()"></app-change-password>
+    </ng-template>
+</p-overlayPanel>
+<div class="p-grid" *ngIf="!spinner">
+    <div class="p-col-12">
+        <div class="card">
+            <div class="p-d-flex p-jc-between">
+                <h3 class="p-d-inline">Vista de Empleado
+                    <p-badge *ngIf="!employee.vaccinated" value="NO VACUNADO" severity="warning"></p-badge>
+                    <p-badge *ngIf="employee.vaccinated" value="VACUNADO" severity="success"></p-badge>
+                </h3>
+                <div class="p-d-flex p-jc-end">
+                    <button pButton pRipple label="Cambiar contraseña" icon="pi pi-save" class=" p-button-info p-mr-2 p-mb-2" (click)="op.toggle($event)"></button>
+                    <button pButton pRipple label="Regresar" icon="pi pi-arrow-left" class=" p-button-secondary p-mr-2 p-mb-2" [routerLink]="[previousRouterService.getPreviousUrl()]"></button>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="card">
+            <h4>Datos personales</h4>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="firstName">Nombres</label>
+                    <input id="firstName" type="text" pInputText [value]="employee.firstName" disabled>
+
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="lastName">Apellidos</label>
+                    <input id="lastName" type="text" pInputText [value]="employee.lastName" disabled>
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="birthday">Fecha Nacimiento</label>
+                    <input id="birthday" type="date" pInputText [value]="employee.birthday" disabled>
+
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="documentNumber">Cedula</label>
+                    <input id="documentNumber" type="text" pInputText [value]="employee.documentNumber" disabled>
+
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="email">Correo</label>
+                    <input id="email" type="email" pInputText [value]="employee.email" disabled>
+
+                </div>
+
+                <div class="p-field p-col-12 p-md-4">
+                    <label for="phone">Telefono</label>
+                    <input id="address" type="text" pInputText [value]="employee.phone" disabled>
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="address">Direccion</label>
+                    <input id="address" type="text" pInputText [value]="employee.address" disabled>
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="firstName">Usuario</label>
+                    <input id="firstName" type="text" pInputText [value]="employee.userAccess.username" disabled>
+
+                </div>
+                <div class="p-field p-col-12 p-md-6" *ngIf="employee.userAccess.rol!==null">
+                    <label for="lastName">Permiso</label>
+                    <input id="lastName" type="text" pInputText [value]="(employee.userAccess.rol.rol==='ADMIN')?'Administrador':'Empleado'" disabled>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card">
+            <div class="p-d-flex p-jc-between">
+                <h5>Datos de vacunación</h5>
+                <button pButton pRipple label="Agregar vacuna" icon="pi pi-plus" class=" p-button-info p-mr-2 p-mb-2" (click)="showModalAddVaccination=true"></button>
+            </div>
+            <p-table [value]="employee.vaccinationStock" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" [rowsPerPageOptions]="[10,25,50]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Vacuna</th>
+                        <th>Dosis</th>
+                        <th>Fecha</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-vaccination>
+                    <tr>
+                        <td>{{vaccination.type}}</td>
+                        <td>{{vaccination.dose}}</td>
+                        <td>{{vaccination.date | momentFormat}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <p-dialog header="Agregar Vacuna" [(visible)]="showModalAddVaccination" [modal]="true" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+            <app-edith-vaccination (vaccinationSaved)="vaccinationSaved($event)" [employee]="employee">
+            </app-edith-vaccination>
+            <!-- <ng-template pTemplate="footer">
+                <p-button icon="pi pi-check" (click)="showModalAddVaccination=false" label="Ok" styleClass="p-button-text">
+                </p-button>
+            </ng-template> -->
+        </p-dialog>
+    </div>
+
+</div>

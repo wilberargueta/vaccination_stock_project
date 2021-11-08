@@ -3,19 +3,26 @@ package com.kruger.test.admin.rest.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.kruger.test.admin.jpa.entity.EmployeeEntity;
 import com.kruger.test.admin.jpa.repository.EmployeeRepository;
 import com.kruger.test.admin.rest.model.Employee;
+import com.kruger.test.admin.rest.model.User;
 import com.kruger.test.admin.util.convert.EmployeeConvert;
+import com.kruger.test.admin.util.convert.UserConvert;
 import com.kruger.test.admin.util.execption.BadRequestsException;
+import com.kruger.test.admin.util.execption.ObjectNotFoundException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService extends AbstractService<Employee, EmployeeEntity, EmployeeConvert, EmployeeRepository> {
+
+    @Autowired
+    private UserConvert userConvert;
 
     public EmployeeService(EmployeeConvert convert, EmployeeRepository repository) {
         super(convert, repository);
@@ -55,5 +62,23 @@ public class EmployeeService extends AbstractService<Employee, EmployeeEntity, E
         if (documentNumber == null)
             throw new BadRequestsException("No se envia parametro de consulta");
         return this.repository.findByDocumentNumber(documentNumber).isPresent();
+    }
+
+    public void updateStateVaccinated(Boolean vaccinated, Long id) {
+        if (vaccinated == null)
+            throw new BadRequestsException("No se envia parametro de consulta");
+
+        this.repository.updateStateVaccinate(vaccinated, id);
+    }
+
+    public Employee getByUserAccess(User userAccess) {
+        if (userAccess == null)
+            throw new BadRequestsException("No se envia parametro de consulta");
+        Optional<EmployeeEntity> optional = this.repository
+                .findByUserAccess(this.userConvert.modelToEntity(userAccess));
+        if (optional.isEmpty())
+            throw new ObjectNotFoundException("Registro no encontrado");
+        return this.convert.entityToModel(optional.get(), true);
+
     }
 }

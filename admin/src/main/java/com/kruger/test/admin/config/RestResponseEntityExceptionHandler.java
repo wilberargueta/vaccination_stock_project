@@ -6,6 +6,7 @@ import com.kruger.test.admin.util.execption.ObjectNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -33,6 +34,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<Response<Object>> handleObjectBabRequests(Exception ex, WebRequest request) {
 
         return new ResponseEntity<>(new Response<>(false, ex.getMessage()), HttpStatus.OK);
+    }
+    @ExceptionHandler({ AccessDeniedException.class })
+    public ResponseEntity<Response<Object>> handleObjectAccess(Exception ex, WebRequest request) {
+
+        return new ResponseEntity<>(new Response<>(false, ex.getMessage(),"401"), HttpStatus.OK);
     }
 
     // @ExceptionHandler({ HttpMessageNotReadableException.class })

@@ -1,0 +1,77 @@
+<p-toast></p-toast>
+<p-blockUI [blocked]="spinner">
+    <app-spinner-load *ngIf="spinner"></app-spinner-load>
+</p-blockUI>
+
+<div class="p-grid">
+    <div class="p-col-12">
+        <div class="card">
+            <h3>Registro de empleado</h3>
+        </div>
+        <div class="card">
+            <h5>Datos personales</h5>
+            <div class="p-fluid p-formgrid p-grid" [formGroup]="employeeForm">
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="firstName">Nombres</label>
+                    <input id="firstName" type="text" pInputText formControlName="firstName">
+                    <small id="firstName-help" class="p-error" *ngIf="employeeForm.get('firstName').invalid">Nombres
+                        invalidos</small>
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="lastName">Apellidos</label>
+                    <input id="lastName" type="text" pInputText formControlName="lastName">
+                    <small id="lastName-help" class="p-error" *ngIf="employeeForm.get('lastName').invalid">Apellidos
+                        invalidos</small>
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="birthday">Fecha Nacimiento</label>
+                    <input id="birthday" type="date" pInputText formControlName="birthday">
+                    <small id="birthday-help" class="p-error" *ngIf="employeeForm.get('birthday').invalid">Fecha
+                        invalida</small>
+
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="documentNumber">Cedula</label>
+                    <input id="documentNumber" type="text" pInputText formControlName="documentNumber" (blur)="validateDocumentNumber()" (focus)="isValidDocumentNumber=false">
+                    <small id="documentNumber-help" class="p-error" *ngIf="employeeForm.get('documentNumber').invalid">Cedula
+                        invalida</small>
+                    <small id="documentNumber-help" class="p-error" *ngIf="employeeForm.get('documentNumber').valid && !isValidDocumentNumber">Esta cedula ya se
+                        encuentra registrada.</small>
+
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="email">Correo</label>
+                    <input id="email" type="email" pInputText formControlName="email">
+                    <small id="email-help" class="p-error" *ngIf="employeeForm.get('email').invalid">Correo
+                        invalido</small>
+
+                </div>
+                <div class="p-field p-col-12 p-md-12">
+                    <label for="address">Direccion</label>
+                    <input id="address" type="text" pInputText formControlName="address">
+                    <small id="address-help" class="p-error" *ngIf="employeeForm.get('address').invalid">Direccion
+                        invalido</small>
+                </div>
+                <div class="p-field p-col-12 p-md-12">
+                    <label for="phone">Telefono</label>
+                    <p-inputMask mask="+(999) 999-9999" formControlName="phone"></p-inputMask>
+                    <small id="phone-help" class="p-error" *ngIf="employeeForm.get('phone').invalid">Telefono
+                        invalido</small>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="card" *ngIf="!update">
+            <app-edith-user [disableSaveButton]="true" (formUserValid)="updateFormUserValid($event)" (userSaved)="saveEmployee($event)" ([user])="user"></app-edith-user>
+        </div>
+        <div class="card p-text-right">
+            <button *ngIf="!update" pButton pRipple label="Guardar" icon="pi pi-save" class=" p-button-success p-mr-2 p-mb-2" (click)="saveUser()" [disabled]="employeeForm.invalid || !formUserValid || !isValidDocumentNumber"></button>
+            <button *ngIf="update" pButton pRipple label="Actualizar" icon="pi pi-save" class=" p-button-success p-mr-2 p-mb-2" (click)="saveEmployee(this.user)" [disabled]="employeeForm.invalid  || !isValidDocumentNumber"></button>
+            <button pButton pRipple label="Regresar" icon="pi pi-arrow-left" class=" p-button-secondary p-mr-2 p-mb-2" [routerLink]="[this.prepUrl.getPreviousUrl()]"></button>
+        </div>
+
+    </div>
+</div>

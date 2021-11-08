@@ -1,0 +1,58 @@
+<div class="layout-topbar p-shadow-4">
+    <div class="layout-topbar-left">
+        <a class="layout-topbar-logo" routerLink="/">
+            <img id="app-logo" src="assets/layout/images/logo-vaccination.svg" alt="ultima-layout" style="height: 2.25rem">
+        </a>
+
+        <a class="layout-menu-button p-shadow-6" (click)="appMain.onMenuButtonClick($event)" pRipple>
+            <i class="pi pi-chevron-right"></i>
+        </a>
+
+        <a class="layout-topbar-mobile-button" (click)="appMain.onTopbarMobileButtonClick($event)" pRipple>
+            <i class="pi pi-ellipsis-v fs-large"></i>
+        </a>
+    </div>
+
+    <div class="layout-topbar-right" [ngClass]="{'layout-topbar-mobile-active': appMain.mobileTopbarActive}">
+        <div class="layout-topbar-actions-left">
+            <!-- <p-megaMenu [model]="model" styleClass="layout-megamenu"></p-megaMenu> -->
+        </div>
+        <div class="layout-topbar-actions-right">
+
+            <ul class="layout-topbar-items" [@topbarActionPanelAnimation]="'visible'">
+                <li class="layout-topbar-item">
+                    <a class="layout-topbar-action p-d-flex p-dir-row p-jc-center p-ai-center p-px-2 rounded-circl" pRipple (click)="logout()">
+                        <i class="pi pi-sign-out" [ngClass]="{'p-mr-2': !app.isRTL, 'p-ml-2': app.isRTL}"></i>
+                        <span>Salir</span>
+                    </a>
+                </li>
+
+            </ul>
+
+            <ul class="layout-topbar-items" *ngIf="false">
+
+                <li class="layout-topbar-item">
+
+                    <a class="layout-topbar-action p-d-flex p-dir-row p-jc-center p-ai-center p-px-2 rounded-circle" (click)="appMain.onTopbarItemClick($event, 'profile')" pRipple>
+                        <i class="pi pi-table fs-large"></i>
+                    </a>
+
+                    <ul class="layout-topbar-action-panel p-shadow-6" [@topbarActionPanelAnimation]="'visible'" *ngIf="appMain.activeTopbarItem === 'profile'">
+                        <li class="layout-topbar-action-item">
+                            <a class="p-d-flex p-flex-row p-ai-center" pRipple (click)="logout()">
+                                <i class="pi pi-sign-out" [ngClass]="{'p-mr-2': !app.isRTL, 'p-ml-2': app.isRTL}"></i>
+                                <span>Salir</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="layout-topbar-item " *ngIf="false">
+                    <a class="layout-topbar-action rounded-circle" (click)="appMain.onRightMenuButtonClick($event)" pRipple>
+                        <i class="pi fs-large" [ngClass]="{'pi-arrow-left': !app.isRTL, 'pi-arrow-right': app.isRTL}"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

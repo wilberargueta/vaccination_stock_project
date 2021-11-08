@@ -11,6 +11,7 @@ import com.kruger.test.admin.util.convert.VaccinationStockConvert;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class VaccinationStockController extends
     }
 
     @GetMapping(path = "/{id}/employee")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
     public ResponseEntity<Response<List<VaccinationStock>>> getByEmployee(@PathVariable Long id) {
 
         return new ResponseEntity<Response<List<VaccinationStock>>>(

@@ -28,8 +28,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.ModelAndView;
 
 @Configuration
-// @EnableWebSecurity
-// @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -63,19 +63,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // http.cors().and().csrf().disable()
-        // // http.cors().disable()
-        // .exceptionHandling().authenticationEntryPoint(entryPoint).and().sessionManagement()
-        // .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-        // .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()
-        // // .antMatchers("/index.html").permitAll()
-        // // .antMatchers("^((?!\\/api\\/v1\\/).)*$").permitAll()
-        // // .antMatchers("/login").permitAll()
-        // // .antMatchers("/home").permitAll()
-        // .antMatchers("/index.html").permitAll().anyRequest().authenticated();
-
-        // http.addFilterBefore(jwtTokenFilter(),
-        // UsernamePasswordAuthenticationFilter.class);
         http.cors().and().csrf().disable()
                 // http.cors().disable()
                 .exceptionHandling().authenticationEntryPoint(entryPoint).and().sessionManagement()
@@ -85,9 +72,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // .antMatchers("^((?!\\/api\\/v1\\/).)*$").permitAll()
                 // .antMatchers("/login").permitAll()
                 // .antMatchers("/home").permitAll()
-                .antMatchers("/**").permitAll();
+                .antMatchers("/index.html").permitAll().anyRequest().authenticated();
 
         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        // http.cors().and().csrf().disable()
+        // // http.cors().disable()
+        // .exceptionHandling().authenticationEntryPoint(entryPoint).and().sessionManagement()
+        // .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+        // .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()
+        // // .antMatchers("/index.html").permitAll()
+        // // .antMatchers("^((?!\\/api\\/v1\\/).)*$").permitAll()
+        // // .antMatchers("/login").permitAll()
+        // // .antMatchers("/home").permitAll()
+        // .antMatchers("/**").permitAll();
+
+        // http.addFilterBefore(jwtTokenFilter(),
+        // UsernamePasswordAuthenticationFilter.class);
 
     }
 
@@ -110,8 +110,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/swagger-ui.html").antMatchers("/").antMatchers("/resources/***")
-                .antMatchers("index.html").antMatchers("/swagger-ui.html/swagger-resources/**")
-                .antMatchers("/swagger-resources/**").antMatchers("/v2/api-docs").antMatchers("/actuator/**")
+                .antMatchers("/swagger-ui/index.html").antMatchers("/index.html")
+                .antMatchers("/swagger-ui.html/swagger-resources/**").antMatchers("/swagger-ui/**")
+                .antMatchers("/swagger-ui/").antMatchers("/swagger-ui").antMatchers("/swagger-resources/**")
+                .antMatchers("/v2/api-docs").antMatchers("/actuator/**")
                 .antMatchers("/webjars/springfox-swagger-ui/**");
     }
 

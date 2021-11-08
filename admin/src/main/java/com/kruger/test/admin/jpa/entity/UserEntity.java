@@ -1,6 +1,5 @@
 package com.kruger.test.admin.jpa.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,6 +27,7 @@ public class UserEntity extends AbstractAuditEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rol", referencedColumnName = "id", updatable = true, insertable = true)
     private RoleEntity rol;
+
 
     public UserEntity() {
     }

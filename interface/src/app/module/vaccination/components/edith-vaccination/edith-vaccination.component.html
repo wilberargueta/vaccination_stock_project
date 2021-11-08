@@ -1,0 +1,37 @@
+<p-toast></p-toast>
+<app-spinner-load *ngIf="spinner"></app-spinner-load>
+<div class="card" *ngIf="!spinner">
+    <h5>Agregar vacuna</h5>
+    <div class="p-fluid p-formgrid p-grid" [formGroup]="vaccinationForm">
+        <div class="p-field p-col-12 p-md-3">
+            <label for="state">Vacuna</label>
+            <span class="p-float-label">
+                <p-dropdown inputId="id" [options]="vaccinationOptions" optionLabel="name" [autoDisplayFirst]="false"
+                    formControlName="type"></p-dropdown>
+                <label>Seleccione</label>
+            </span>
+            <small id="select-help" class="p-error" *ngIf="vaccinationForm.get('type').invalid">Debe seleccionar una
+                vacuna</small>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+            <label for="date">Date</label>
+            <input id="date" type="date" pInputText formControlName="date">
+            <small id="date-help" class="p-error" *ngIf="vaccinationForm.get('date').invalid">Fecha
+                invalida</small>
+
+        </div>
+        <div class="p-field p-col-12 p-md-3">
+            <label for="minmax-buttons">Number de dosis</label>
+            <p-inputNumber mode="decimal" formControlName="dose" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="100">
+            </p-inputNumber>
+            <small id="dose-help" class="p-error" *ngIf="vaccinationForm.get('dose').invalid">Contraseña
+                invalida</small>
+        </div>
+
+    </div>
+
+</div>
+<div class="card p-text-right" *ngIf="!disableSaveButton">
+    <button pButton pRipple label="Guardar" icon="pi pi-save" class=" p-button-success p-mr-2 p-mb-2" (click)="save()" [disabled]="vaccinationForm.invalid"></button>
+    <button pButton pRipple label="Cancelar" icon="pi pi-arrow-left" class=" p-button-secondary p-mr-2 p-mb-2" (click)="cancelSave()"></button>
+</div>

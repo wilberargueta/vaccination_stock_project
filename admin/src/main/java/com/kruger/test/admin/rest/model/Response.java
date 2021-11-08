@@ -6,15 +6,17 @@ public class Response<C> {
     private Boolean OK;
     private LocalDateTime dateTime;
     private String message;
+    private String code;
     private C content;
 
     public Response() {
     }
 
-    public Response(Boolean oK, LocalDateTime dateTime, String message, C content) {
+    public Response(Boolean oK, LocalDateTime dateTime, String message, String code, C content) {
         OK = oK;
         this.dateTime = dateTime;
         this.message = message;
+        this.code = code;
         this.content = content;
     }
 
@@ -23,19 +25,28 @@ public class Response<C> {
         this.OK = true;
         this.message = message;
         this.content = content;
+        this.code = "000";
     }
 
-    
     public Response(Boolean oK, String message) {
         OK = oK;
         this.message = message;
         this.dateTime = LocalDateTime.now();
+        this.code = "000";
     }
 
     public Response(C content) {
         this.dateTime = LocalDateTime.now();
         this.OK = true;
         this.content = content;
+        this.code = "000";
+    }
+
+    public Response(Boolean oK, String message, String code) {
+        OK = oK;
+        this.message = message;
+        this.code = code;
+        this.dateTime = LocalDateTime.now();
     }
 
     public Boolean getOK() {
@@ -70,9 +81,18 @@ public class Response<C> {
         this.dateTime = dateTime;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString() {
-        return "Response [OK=" + OK + ", content=" + content + ", dateTime=" + dateTime + ", message=" + message + "]";
+        return "Response [OK=" + OK + ", code=" + code + ", content=" + content + ", dateTime=" + dateTime
+                + ", message=" + message + "]";
     }
 
 }

@@ -38,6 +38,7 @@ public class OAuthEntryPoint implements AuthenticationEntryPoint {
         Response<Object> responseObject = new Response<>();
 
         responseObject.setContent(null);
+        responseObject.setCode("403");
         responseObject.setMessage("Usuario  no esta autorizado.");
         responseObject.setDateTime(LocalDateTime.now());
         responseObject.setOK(false);

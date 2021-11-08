@@ -1,0 +1,90 @@
+<p-toast></p-toast>
+<app-spinner-load *ngIf="spinner"></app-spinner-load>
+<div class="p-grid" *ngIf="!spinner">
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    <div class="p-col-12">
+        <div class="card">
+            <h3 class="p-text-bold">Administracion de empleados</h3>
+            <p class="p-text-light">Pantalla de mantenimiento de empleados</p>
+        </div>
+        <app-filter-employee (spinner)="this.spinner=$event" (employees)="this.employees=$event" (loadAll)="loadAll()">
+        </app-filter-employee>
+        <div class="card">
+            <p-toolbar styleClass="p-mb-4">
+                <ng-template pTemplate="left">
+                    <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2" [routerLink]="['/admin/employee/edith']"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger p-mb-2" (click)="deleteSelectedEmployee()" [disabled]="!selectedEmployees || !selectedEmployees.length"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="employees" [columns]="columns" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedEmployees" [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+                <!-- <ng-template pTemplate="caption">
+                    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                        <h5 class="p-m-0">Administrar Empleados</h5>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                                placeholder="Busqueda..." />
+                        </span>
+                    </div>
+                </ng-template> -->
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="firstName">Nombres
+                            <p-sortIcon field="firstName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="lastName">Apellidos
+                            <p-sortIcon field="lastName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="documentNumber">Cedula
+                            <p-sortIcon field="documentNumber"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="email">Correo
+                            <p-sortIcon field="email"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="vaccinated">Vacunado
+                            <p-sortIcon field="vaccinated"></p-sortIcon>
+                        </th>
+                        <th>Opciones</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-employee>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="employee"></p-tableCheckbox>
+                        </td>
+                        <td><span class="p-column-title">Nombres</span> {{employee.firstName}}
+                        </td>
+                        <td><span class="p-column-title">Apellidos</span> {{employee.lastName}}
+                        </td>
+
+                        <td><span class="p-column-title">Cedula</span> {{employee.documentNumber}}
+                        </td>
+                        <td><span class="p-column-title">Correo</span> {{employee.email}}</td>
+                        <td><span class="p-column-title">Vacunado</span>
+                            <p-badge *ngIf="employee.vaccinated" [value]="'Si'" severity="success" styleClass="p-mr-2">
+                            </p-badge>
+                            <p-badge *ngIf="!employee.vaccinated" [value]="'No'" severity="warning" styleClass="p-mr-2">
+                            </p-badge>
+                        </td>
+
+                        <td>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info p-mr-2" [routerLink]="['/admin/employee/view/'+employee.id]"></button>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" [routerLink]="['/admin/employee/edith/'+employee.id]"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEmployee(employee)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">
+                        Un total de {{employees ? employees.length : 0 }} empleados.
+                    </div>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
