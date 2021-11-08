@@ -15,6 +15,9 @@
 * Maven
 * Postgresql 14
 
+## Proyecto `interface`
+* Para instalar las dependencias ejecutar `npm install` 
+  
 ## Acceso
 Usuario:`admin`.
 Password:`admin`.
